@@ -8,6 +8,7 @@ const args = require('yargs').argv;
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MDToBlipWebpackPlugin = require('./loaders/md-to-blip-webpack-plugin');
 
 let isProd = args.prod;
 let isDev = args.dev;
@@ -27,7 +28,7 @@ let plugins = [
         inject: 'body',
         chunks: 'app'
     }),
-    new CopyWebpackPlugin(['_blips/data.json'], {})
+    new MDToBlipWebpackPlugin({folder: "src/blips"})
 ];
 
 if (isProd) {
@@ -68,6 +69,13 @@ module.exports = {
             { test: /\.(png|svg|jpg|ico)$/, exclude: /node_modules/, loader: 'file-loader?name=images/[name].[ext]&context=./src/images' }
         ]
     },
+    resolveLoader: {
+        fallback: [
+          path.resolve(__dirname, 'loaders'),
+          path.join(process.cwd(), 'node_modules')
+        ]
+      },
+
 
     quiet: false,
     noInfo: false,
