@@ -5,6 +5,7 @@
 @import 'error';
 @import 'header';
 @import 'footer';
+@import 'modal';
 
 @import 'screen';
 
@@ -321,6 +322,10 @@ body {
                 color: $grey-text;
                 font-weight: 100;
                 font-size: 14px;
+              }
+
+              ul {
+                margin-top: 0;
               }
 
             }

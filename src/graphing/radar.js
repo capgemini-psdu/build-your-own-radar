@@ -2,6 +2,7 @@ const d3 = require('d3');
 const d3tip = require('d3-tip');
 const Chance = require('chance');
 const _ = require('lodash/core');
+const MicroModal = require('micromodal');
 
 const RingCalculator = require('../util/ringCalculator');
 
@@ -235,16 +236,18 @@ const Radar = function (size, radar) {
           group.on('mouseover', mouseOver).on('mouseout', mouseOut);
 
           var clickBlip = function () {
-            d3.select('.blip-item-description.expanded').node() !== blipItemDescription.node() &&
-            d3.select('.blip-item-description.expanded').classed("expanded", false);
-            blipItemDescription.classed("expanded", !blipItemDescription.classed("expanded"));
-
+            d3.select('#modal-1-title').text(blip.name);
+            d3.select('#modal-1-content').html(blip.description());
+            MicroModal.show("modal-1");
             blipItemDescription.on('click', function () {
               d3.event.stopPropagation();
             });
           };
 
           blipListItem.on('click', clickBlip);
+
+          group.on('click', clickBlip);
+
         }
       });
     });
@@ -488,6 +491,7 @@ const Radar = function (size, radar) {
   }
 
   self.init = function () {
+    MicroModal.init();
     radarElement = d3.select('body').append('div').attr('id', 'radar');
     return self;
   };
